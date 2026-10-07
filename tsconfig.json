@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+     "noEmit": true, // Optional - see note below
+     "target": "esnext",
+     "module": "es2022",
+     "moduleResolution": "bundler",
+     "rewriteRelativeImportExtensions": true,
+     "erasableSyntaxOnly": true,
+     "verbatimModuleSyntax": true,
+     "types": ["node"]
+  }
+}
