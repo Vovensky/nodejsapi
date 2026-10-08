@@ -1,12 +1,9 @@
 import { createServer } from 'node:http';
+import { isUser } from './guards/isUser';
+import { sendJson } from './helpers/sendJson';
 
 const PORT = Number(process.env.PORT) || 3000
 const address = process.env.ADDRESS || '127.0.0.1'
-
-console.log(`PORT:`, PORT);
-console.log(`PROCESS.ID:`, process.pid);
-console.log(`PROCESS.ENV:`,process.env);
-
 
 const server = createServer((req, res) => {
     const url = new URL(req.url ?? '/', 'http://localhost');
@@ -27,6 +24,41 @@ const server = createServer((req, res) => {
             res.end(JSON.stringify({ message: 'Unsupported check' }));
             return
     }
+
+    if(url.pathname === '/echo' && req.method === 'POST') {
+        const buffer: Buffer[] = [];
+
+        req.on('data', (chunk) => {
+            buffer.push(chunk);
+        })
+
+        req.on('end', () => {
+            const body = Buffer.concat(buffer).toString('utf8');
+            let data: { name: string } | unknown = {};
+
+            try {
+                data = JSON.parse(body);
+            } catch (error) {
+                sendJson(res, 400, { message: 'Invalid user data' });
+                return;
+            }
+
+            if(!isUser(data)) {
+                sendJson(res, 400, { message: 'Invalid user data' });
+                return;
+            }
+
+            sendJson(res, 200, data);
+
+        })
+
+        return;
+    }
+
+    res.writeHead(404, {
+        'Content-Type': 'text/plain; charset=utf-8',
+    });
+    res.end('Not Found');
 });
 
 

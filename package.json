@@ -3,9 +3,9 @@
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
-      "start": "PORT=3001 node ./index.ts"
+        "start": "PORT=3001 node ./index.ts"
     },
-  "devDependencies": {
-    "@types/node": "^26.6.4"
-  }
+    "devDependencies": {
+        "@types/node": "^26.6.4"
+    }
 }
