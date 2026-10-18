@@ -2,15 +2,12 @@
     "name": "server",
     "version": "1.0.0",
     "main": "index.js",
+    "type": "module",
     "scripts": {
-        "start": "PORT=3001 node ./index.ts"
+        "start": "PORT=3001 tsx ./index.ts"
     },
     "devDependencies": {
-<<<<<<< Updated upstream
-        "@types/node": "^26.6.4"
-=======
         "@types/node": "^26.6.4",
-        "prettier": "3.9.10"
->>>>>>> Stashed changes
+        "tsx": "^4.23.15"
     }
 }
