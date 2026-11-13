@@ -3,9 +3,9 @@ import { randomUUID } from 'crypto';
 import { sendJson } from '../helpers/sendJson';
 import { readBody } from '../helpers/readBody';
 import { isUser } from '../guards/isUser';
-import type { IUsers } from '../store/Users';
+import { users } from '../store/Users';
 
-export const createUser = async (users: IUsers[], req: IncomingMessage, res: ServerResponse): Promise<void> => {
+export const createUser = async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
         let body;
         let data;
 

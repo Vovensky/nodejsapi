@@ -1,14 +1,13 @@
-import type { IncomingMessage, ServerResponse } from 'node:http'
-import type { IUsers } from '../store/Users'
+import type { ServerResponse } from 'node:http'
 import { sendJson } from '../helpers/sendJson'
+import { users } from '../store/Users'
 
 interface IGetUserById {
     id: string | undefined;
-    users: IUsers[];
     res: ServerResponse;
 }
 
-export function getUserById({ id, users, res }: IGetUserById): void {
+export function getUserById({ id, res }: IGetUserById): void {
     const user = users.find((user) => user.id === id)
     if (user) {
         sendJson(res, 200, { user })
