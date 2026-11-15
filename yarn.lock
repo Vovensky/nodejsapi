@@ -46,6 +46,11 @@ esbuild@~0.28.0:
     "@esbuild/win32-ia32" "0.28.2"
     "@esbuild/win32-x64" "0.28.2"
 
+postgres@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.npmjs.org/postgres/-/postgres-4.1.1.tgz"
+  integrity sha512-1kJDojqNZC+iTHHXh6eif0J98LUtyLAePe/qkW1GK35eh2JixlsAiIKq3FGI+xqI+SUGTNodzf7TScVeIIyUug==
+
 tsx@^4.23.15:
   version "4.23.15"
   resolved "https://registry.npmjs.org/tsx/-/tsx-4.23.15.tgz"

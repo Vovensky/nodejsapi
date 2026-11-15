@@ -9,5 +9,8 @@
     "devDependencies": {
         "@types/node": "^26.6.4",
         "tsx": "^4.23.15"
+    },
+    "dependencies": {
+        "postgres": "^4.1.1"
     }
 }
