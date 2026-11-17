@@ -4,13 +4,16 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "start": "PORT=3001 tsx ./index.ts"
+        "start": "node --env-file=.env --import tsx ./index.ts"
     },
     "devDependencies": {
         "@types/node": "^26.6.4",
+        "@types/pg": "^8.23.1",
         "tsx": "^4.23.15"
     },
     "dependencies": {
+        "dotenv": "^18.0.10",
+        "pg": "^8.23.1",
         "postgres": "^4.1.1"
     }
 }
