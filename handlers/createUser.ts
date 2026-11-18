@@ -4,10 +4,13 @@ import { sendJson } from '../helpers/sendJson';
 import { readBody } from '../helpers/readBody';
 import { isUser } from '../guards/isUser';
 import { users } from '../store/Users';
+import { createDbUser } from '../db/usersController';
 
 export const createUser = async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
         let body;
         let data;
+        let error;
+        let dbUser;
 
         if(req.headers['content-type']?.split(';')[0].trim().toLowerCase() !== 'application/json') {
             sendJson(res, 415, { message: 'Invalid ContentType'})
@@ -38,7 +41,15 @@ export const createUser = async (req: IncomingMessage, res: ServerResponse): Pro
             sendJson(res, 400, { message: 'Invalid user data' })
             return
         }
-        const user = { id: randomUUID(), name: data.name}
-        users.push(user);
-        sendJson(res, 200, { message: 'User successfully created', user})
+        const user = { name: data.name }
+        try {
+            dbUser = await createDbUser(user.name).then((dbUser) => {
+                return dbUser;
+            })
+        } catch (error) {
+            console.error('Error creating user in database:', error);
+            sendJson(res, 503, { message: 'Error creating user in database' });
+            return;
+        }
+        sendJson(res, 201, { message: 'User successfully created', user: dbUser})
 }

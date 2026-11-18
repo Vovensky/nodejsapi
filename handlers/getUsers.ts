@@ -1,7 +1,16 @@
 import { ServerResponse } from 'node:http';
 import { sendJson } from '../helpers/sendJson';
-import { users } from '../store/Users';
+import { getDbUsers } from '../db/usersController';
 
-export const getUsers = (res: ServerResponse): void => {
-    sendJson(res, 200, { users })
+export const getUsers = async (res: ServerResponse): Promise<void> => {
+    let dbUsers;
+    try {
+        dbUsers = await getDbUsers();
+    } catch (error) {
+        console.error('Error fetching users from database:', error);
+        sendJson(res, 503, { message: 'Error fetching users from database' });
+        return;
+    }
+    
+    sendJson(res, 200, { users: dbUsers });
 }

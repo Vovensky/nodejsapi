@@ -6,6 +6,7 @@ import { getUsers } from './handlers/getUsers';
 import { getHealth } from './handlers/getHealth';
 import { checkEcho } from './handlers/checkEcho';
 import { deleteUser } from './handlers/deleteUser';
+import { checkDatabase } from './db/db';
 
 const PORT = Number(process.env.PORT) || 3000
 const address = process.env.ADDRESS || '127.0.0.1'
@@ -30,7 +31,7 @@ const server = createServer(async (req, res) => {
     }
 
     if(url.pathname === '/users' && req.method === 'GET') {
-        getUsers(res);
+        await getUsers(res);
         return;
     }
 
@@ -44,13 +45,19 @@ const server = createServer(async (req, res) => {
         await deleteUser(res, id);
         return;
     }
-   
-    res.writeHead(404, {
-        'Content-Type': 'text/plain; charset=utf-8',
-    })
+
     res.end('Not Found')
 })
 
-server.listen(PORT, address, () => {
-    console.log(`Server is running on http://localhost:${PORT}`)
+async function startServer() {
+    await checkDatabase();
+
+    server.listen(PORT, address, async () => {
+        console.log(`Server is running on http://localhost:${PORT}`)
+    })
+}
+
+startServer().catch((err) => {
+    console.error('Error starting server:', err);
+    process.exit(1);
 })
